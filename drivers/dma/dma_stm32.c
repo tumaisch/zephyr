@@ -106,11 +106,8 @@ static void dma_stm32_irq_handler(const struct device *dev, uint32_t id)
 		dma_stm32_clear_stream_irq(dev, id);
 		return;
 	}
-#ifdef CONFIG_DMAMUX_STM32
-	callback_arg = stream->mux_channel;
-#else
-	callback_arg = id + STM32_DMA_STREAM_OFFSET;
-#endif /* CONFIG_DMAMUX_STM32 */
+
+	callback_arg = stream->mux_channel + STM32_DMA_STREAM_OFFSET;
 
 	/* The dma stream id is in range from STM32_DMA_STREAM_OFFSET..<dma-requests> */
 	if (stm32_dma_is_ht_irq_active(dma, id)) {
